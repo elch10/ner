@@ -1,0 +1,1 @@
+sudo docker run -v /home/elch10/Desktop/hack/urbantech/flask_ner:/app -it -p 5000:80 flask-ner

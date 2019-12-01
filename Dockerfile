@@ -2,25 +2,19 @@ FROM continuumio/miniconda3
 
 MAINTAINER Elchin "elchin1999@gmail.com"
 
-RUN conda create -n env python=3 && conda init
-RUN exec bash && conda activate env
+RUN apt-get update && apt-get install -y build-essential
 
-RUN conda install -y -c anaconda flask
-RUN conda install -y -c conda-forge pybind11==2.2.3 fasttext
+RUN conda install -y -c anaconda flask Cython==0.29.12 numpy==1.16.4 pandas==0.24.2 scipy==1.3.0 scikit-learn==0.21.2
+RUN conda install -y -c conda-forge pybind11==2.2.3 keras==2.2.4
 
-# For deeppavlov
-RUN conda install -y -c anaconda Cython==0.29.12 numpy==1.16.4 pandas==0.24.2 scipy==1.3.0 scikit-learn==0.21.2
-
-RUN apt update && apt install -y build-essential
-RUN pip install deeppavlov && \
-    pip install git+https://github.com/deepmipt/bert.git@feat/multi_gpu
-
+RUN pip install deeppavlov
+RUN python -m deeppavlov install ner_rus
+RUN python -m deeppavlov download ner_rus
 RUN pip install pullenti-wrapper
 
-# COPY . /app
+COPY . /app
+WORKDIR /app
 
-CMD [ "git clone https://github.com/elch10/flask_ner.git" ]
-
-WORKDIR /flask_ner
-
-CMD [ "python app.py" ]
+# RUN python load_modules.py
+ENTRYPOINT [ "python" ]
+CMD [ "app.py" ]
