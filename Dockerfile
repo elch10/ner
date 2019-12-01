@@ -17,10 +17,10 @@ RUN pip install deeppavlov && \
 
 RUN pip install pullenti-wrapper
 
-COPY . /app
-WORKDIR /app
+# COPY . /app
 
-ENTRYPOINT [ "python" ]
+CMD [ "git clone https://github.com/elch10/flask_ner.git" ]
 
-CMD [ "app.py" ]
+WORKDIR /flask_ner
 
+CMD [ "python app.py" ]
