@@ -11,6 +11,7 @@ RUN pip install deeppavlov
 RUN python -m deeppavlov install ner_rus
 RUN python -m deeppavlov download ner_rus
 RUN pip install pullenti-wrapper
+RUN pip install python-telegram-bot
 
 COPY . /app
 WORKDIR /app
